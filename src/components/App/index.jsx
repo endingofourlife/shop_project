@@ -1,14 +1,12 @@
 import {Routes, Route} from 'react-router-dom';
-import './style.sass'
-
-import Nav from '../Nav'
 import Home from '../../pages/Home'
-import About from '../../pages/About'
 import Categories from '../../pages/Categories'
 import NotFound from '../../pages/NotFound'
 import Products from '../../pages/Products'
 import Layout from '../Layout';
 import ProductDescription from '../../pages/ProductDescription';
+import Card from "../../pages/Cart";
+import Category from "../../pages/Category";
 
 function App() {
   return (
@@ -16,10 +14,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />}/>
-          <Route path='about' element={<About />}/>
+          <Route path='card' element={<Card />}/>
           <Route path='categories' element={<Categories />}/>
-          <Route path='category/:category' element={<Products />}/>
-          <Route path='product/:id' element={<ProductDescription />}/>
+          <Route path='category/:categoryId' element={<Category />}/>
+          <Route path='product/:productId' element={<ProductDescription />}/>
           <Route path='*' element={<NotFound />}/>
         </Route>
       </Routes>

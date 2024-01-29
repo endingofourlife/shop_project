@@ -1,33 +1,38 @@
-import React from 'react'
-import {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import CategoryCard from '../../components/CategoryCard';
 
 export default function Categories() {
-
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    fetch('https://fakestoreapi.com/products/categories')
-      .then(resp => resp.json())
-      .then(data => setCategories(data))
-  });
-
-  // до загрузки данных выводить сообщение "Категории грузятся"
+  useEffect(() => {
+    fetch('http://localhost:3333/categories/all')
+        .then(resp => resp.json())
+        .then(data => {
+          setCategories(data);
+          setLoading(false);
+          console.log(data)
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+          setLoading(false);
+        });
+  }, []); // Пустой массив зависимостей
 
   return (
-    categories.length === 0 
-    ? <p>Категории грузятся</p>
-    : <div>
-      {
-        categories.map(
-            category => <CategoryCard 
-                          key={category} 
-                          category={category}
-                        />
-        )
-      }
-    </div>
-  )
+      <div>
+        {loading ? (
+            <p>Категории грузятся</p>
+        ) : (
+            <>
+                <h1 style={{paddingLeft: "2%"}}>Categories</h1>
+                <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gridTemplateRows: "422px 422px", padding: "2%"}}>
+                    {categories.map(category => (
+                        <CategoryCard key={category.id} data={category} />
+                    ))}
+                </div>
+            </>
+        )}
+      </div>
+  );
 }
-
-// по URN /product/<id> отображать ProductDescription
